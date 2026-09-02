@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compass Release Notes — August 2026</title>
+<meta name="description" content="What changed in CURE Compass, who it affects, and what you need to do differently.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root{
+    --ground:#FFFFFF; --panel:#F4F7FA; --ink:#051C2C; --muted:#5A6E7F;
+    --accent:#2251FF; --link:#0F3FD1; --rule:#D6DFE7; --soft:#EAF0FF;
+    --code-bg:#F0F3F7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#08131C; --panel:#0F1F2C; --ink:#E8EFF5; --muted:#93A7B8;
+      --accent:#6E8FFF; --link:#9DB4FF; --rule:#22384A; --soft:#132339;
+      --code-bg:#132030;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#08131C; --panel:#0F1F2C; --ink:#E8EFF5; --muted:#93A7B8;
+    --accent:#6E8FFF; --link:#9DB4FF; --rule:#22384A; --soft:#132339;
+    --code-bg:#132030;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0; background:var(--ground); color:var(--ink);
+    font-family:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+    font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:840px; margin:0 auto; padding:0 28px 90px}
+  h1,h2,h3,h4{font-family:Archivo,'Arial Narrow',Helvetica,sans-serif; text-wrap:balance; margin:0; line-height:1.2}
+  h1{font-size:clamp(2.1rem,5.5vw,2.9rem); font-weight:700; letter-spacing:-.022em}
+  h2{font-size:1.62rem; font-weight:700; letter-spacing:-.012em}
+  h3{font-size:1.2rem; font-weight:600; letter-spacing:-.005em}
+  h4{font-size:1rem; font-weight:600}
+  p{margin:0 0 1em; max-width:68ch}
+  a{color:var(--link); text-underline-offset:3px}
+  a:hover{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+  ul{padding-left:1.15em}
+  li{margin:6px 0; max-width:66ch}
+  kbd{font-family:'IBM Plex Mono',monospace; font-size:.85em; background:var(--code-bg); padding:1px 5px; border-radius:2px}
+
+  .kicker{font-family:Archivo,sans-serif; font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+
+  /* Masthead */
+  header.mast{padding:64px 0 28px; border-bottom:2px solid var(--ink)}
+  header.mast .kicker{margin-bottom:14px}
+  header.mast h1{margin-bottom:16px}
+  .standfirst{font-size:1.12rem; color:var(--muted); max-width:60ch}
+  .factbar{display:flex; flex-wrap:wrap; gap:22px 44px; margin-top:28px; padding-top:20px; border-top:1px solid var(--rule)}
+  .fact dt{font-family:'IBM Plex Mono',monospace; font-size:.67rem; letter-spacing:.11em; text-transform:uppercase; color:var(--muted); margin:0 0 4px}
+  .fact dd{margin:0; font-weight:600; font-size:.94rem}
+
+  /* On this page */
+  nav.toc{margin:34px 0 0; padding:18px 0 0; border-top:1px solid var(--rule)}
+  nav.toc .kicker{color:var(--muted); display:block; margin-bottom:10px}
+  nav.toc ol{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:2px 28px}
+  nav.toc li{margin:0; font-size:.94rem}
+  nav.toc a{text-decoration:none; display:block; padding:4px 0; border-bottom:1px solid transparent}
+  nav.toc a:hover{border-bottom-color:var(--rule)}
+  nav.toc .n{font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--muted); margin-right:9px}
+
+  /* Stage */
+  .stage{margin:64px 0 0; padding-top:22px; border-top:2px solid var(--ink)}
+  .stage .kicker{display:block; margin-bottom:8px}
+  .stage h2{margin-bottom:8px}
+  .stage > p{color:var(--muted); font-size:.99rem}
+
+  /* Item */
+  article.item{margin:44px 0; scroll-margin-top:24px}
+  .item-meta{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:10px 0 16px}
+  .tag{font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; padding:3px 9px; border-radius:2px; white-space:nowrap}
+  .tag.act{background:var(--accent); color:#fff}
+  .tag.no{background:transparent; color:var(--muted); box-shadow:inset 0 0 0 1px var(--rule)}
+  .affects{font-size:.9rem; color:var(--muted)}
+  .item h4{margin:22px 0 6px}
+
+  /* Definition-style lead */
+  .lead{border-left:3px solid var(--accent); padding:2px 0 2px 18px; margin:0 0 20px}
+  .lead p{margin:0; font-size:1.04rem}
+
+  /* Figure / media slot */
+  figure{margin:24px 0; padding:0}
+  .media{border:1px solid var(--rule); background:var(--panel); padding:34px 24px; text-align:center}
+  .media .mk{font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.11em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:8px}
+  .media .mt{font-family:Archivo,sans-serif; font-weight:600; font-size:1.02rem; margin-bottom:4px}
+  .media .md{font-size:.9rem; color:var(--muted); max-width:52ch; margin:0 auto}
+  figcaption{font-size:.88rem; color:var(--muted); margin-top:9px; padding-left:2px}
+  .media img{display:block; max-width:100%; height:auto; margin:0 auto}
+  .video-frame{position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border:1px solid var(--rule)}
+  .video-frame iframe{position:absolute; top:0; left:0; width:100%; height:100%; border:0}
+
+  /* Tables */
+  .tblwrap{overflow-x:auto; margin:20px 0}
+  table{border-collapse:collapse; width:100%; font-size:.94rem}
+  th{font-family:'IBM Plex Mono',monospace; font-size:.67rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); text-align:left; font-weight:400; padding:0 18px 8px 0; border-bottom:1px solid var(--ink); white-space:nowrap}
+  td{padding:10px 18px 10px 0; border-bottom:1px solid var(--rule); vertical-align:top}
+  td.req{font-family:'IBM Plex Mono',monospace; font-size:.79rem; font-weight:500; color:var(--accent); white-space:nowrap}
+  td.non{font-family:'IBM Plex Mono',monospace; font-size:.79rem; color:var(--muted); white-space:nowrap}
+  table.stack td:first-child{font-weight:600; white-space:nowrap}
+
+  /* Change lists */
+  .changes{display:grid; grid-template-columns:1fr 1fr; gap:0 34px; margin:20px 0}
+  @media (max-width:640px){ .changes{grid-template-columns:1fr; gap:0} }
+  .changes h4{font-family:'IBM Plex Mono',monospace; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; font-weight:500; margin:0 0 8px; padding-bottom:6px; border-bottom:1px solid var(--rule)}
+  .changes .disc h4{color:var(--muted)}
+  .changes .newp h4{color:var(--accent)}
+  .changes ul{margin:0 0 20px; padding-left:1.1em; font-size:.94rem}
+
+  /* Panel */
+  .panel{background:var(--panel); padding:20px 24px; margin:22px 0; border-left:3px solid var(--rule)}
+  .panel > *:last-child{margin-bottom:0}
+  .panel h4{margin-top:0}
+  .panel.hi{border-left-color:var(--accent); background:var(--soft)}
+
+  footer{margin-top:72px; padding-top:24px; border-top:2px solid var(--ink); color:var(--muted); font-size:.92rem}
+  footer b{color:var(--ink)}
+  footer p{max-width:64ch}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <span class="kicker">CURE Compass</span>
+  <h1>Compass Release Notes</h1>
+  <p class="standfirst">What changed, who it affects, and what — if anything — you need to do differently.</p>
+  <dl class="factbar">
+    <div class="fact"><dt>Release</dt><dd>August 2026</dd></div>
+    <div class="fact"><dt>Changes</dt><dd>7</dd></div>
+    <div class="fact"><dt>Action required from</dt><dd>Clinics &amp; Colleges, gift entry</dd></div>
+    <div class="fact"><dt>Questions</dt><dd>Aniel Horo, CRM</dd></div>
+  </dl>
+
+  <nav class="toc" aria-label="On this page">
+    <span class="kicker">On this page</span>
+    <ol>
+      <li><a href="#summary"><span class="n">01</span>What shipped</a></li>
+      <li><a href="#fundraising-pages"><span class="n">02</span>Fundraising Pages</a></li>
+      <li><a href="#crediting"><span class="n">03</span>Invoice crediting</a></li>
+      <li><a href="#facilities"><span class="n">04</span>Recipient Facilities</a></li>
+      <li><a href="#reporting"><span class="n">05</span>Reporting &amp; GIK</a></li>
+      <li><a href="#reference"><span class="n">06</span>Training &amp; support</a></li>
+    </ol>
+  </nav>
+</header>
+
+<section id="summary" style="margin-top:52px">
+  <h2>What shipped this month</h2>
+  <div class="lead" style="margin-top:16px">
+    <p>This release delivers seven changes to CURE Compass. Two of them change how donations and trip invoices are handled and require action from the Clinics and Colleges team. The remaining five are additive — new data and new reporting, with no change to existing workflows.</p>
+  </div>
+  <p>Each item below states who it affects, what changed, why, and what you need to do. Items marked <b>Action required</b> introduce a new step or retire an old one. Items marked <b>No action</b> are here so you know the capability exists.</p>
+
+  <div class="tblwrap"><table>
+    <thead><tr><th>Change</th><th>Affects</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td><a href="#fundraising-pages">Fundraising Pages in Compass</a></td><td>Clinics &amp; Colleges, gift entry</td><td class="req">Required</td></tr>
+      <tr><td><a href="#crediting">Automated invoice crediting</a></td><td>Clinics &amp; Colleges, gift entry</td><td class="req">Required</td></tr>
+      <tr><td><a href="#facilities">Recipient Facilities</a></td><td>Programs, assessments, logistics</td><td class="non">None this release</td></tr>
+      <tr><td><a href="#reporting">Power BI opportunity scoping</a></td><td>Leadership, fundraising</td><td class="non">None</td></tr>
+      <tr><td><a href="#reporting">Grants Dashboard</a></td><td>Grants team</td><td class="non">None</td></tr>
+      <tr><td><a href="#reporting">GIK request numbers</a></td><td>GIK, warehouse</td><td class="non">None</td></tr>
+      <tr><td><a href="#reporting">SharePoint folders</a></td><td>All staff</td><td class="non">None</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<div class="stage">
+  <span class="kicker">Changes requiring action</span>
+  <h2>Two items</h2>
+  <p>Both concern the same workflow: how a donation reaches a participant's trip invoice.</p>
+</div>
+
+<article class="item" id="fundraising-pages">
+  <h3>Fundraising Pages in Compass</h3>
+  <div class="item-meta">
+    <span class="tag act">Action required</span>
+    <span class="affects">Clinics &amp; Colleges team, and anyone entering gifts</span>
+  </div>
+
+  <h4>What changed</h4>
+  <p>GoFundMe Pro fundraising pages now synchronize into Compass and appear under <b>Fundraising Pages</b> in the Clinics app navigation. Pages arrive within approximately one hour of being created and are matched to the corresponding trip participation automatically wherever the participant's email address allows it. No one creates a page by hand, and no one copies a page ID.</p>
+
+  <h4>Why it changed</h4>
+  <p>Page IDs were previously transcribed by hand from GoFundMe Pro. Crediting therefore depended on accurate manual entry, and funds raised above a participant's trip cost were not recorded anywhere.</p>
+
+  <h4>What you will see</h4>
+  <p>Each page names itself from its title, creation month, and GoFundMe ID — for example, <i>Sarah's Kenya Page – Aug 2026 (7356034)</i> — so a returning participant's pages remain distinguishable. The page record shows the fundraising goal and progress, the total GoFundMe Pro reports as raised, the total Compass has actually received, the variance between those two figures, any unused surplus, and the full list of donations.</p>
+
+  <figure>
+    <div class="media">
+      <span class="mk">Screenshot</span>
+      <div class="mt">The Fundraising Page record</div>
+      <p class="md">Goal, both Total Raised figures, Sync Variance and Over-raised Remaining in one frame.</p>
+    </div>
+    <figcaption>Screenshot to follow.</figcaption>
+  </figure>
+
+  <div class="panel">
+    <h4>Reading Sync Variance</h4>
+    <div class="tblwrap"><table class="stack">
+      <tbody>
+        <tr><td>Zero</td><td>The two systems agree.</td></tr>
+        <tr><td>Positive</td><td>GoFundMe Pro counted money Compass never received — usually a check keyed directly into GoFundMe Pro. Worth investigating.</td></tr>
+        <tr><td>Negative</td><td>Compass holds offline gifts GoFundMe Pro does not know about. Expected.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h4>What you need to do</h4>
+  <p>Two views require a weekly review, and both should normally be empty:</p>
+  <ul>
+    <li><b>Unlinked Pages</b> — pages the synchronization could not match to a participation, generally because the email address differs between the two systems or the contact is duplicated. Identify the participant and enter the page ID on their trip participation record.</li>
+    <li><b>Gifts Needing Manual Linking</b> — donations whose page ID matched more than one participation. Correct the incorrect page ID; the correction re-triggers processing automatically.</li>
+  </ul>
+  <p>Where a match is ambiguous, Compass declines to guess and parks the record in one of these views. No funds are ever attributed to the wrong participant silently — but that safeguard only works if someone reviews the views.</p>
+
+  <figure>
+    <div class="media">
+      <span class="mk">Video · ~5 min</span>
+      <div class="mt">Fundraising and crediting: overview</div>
+      <p class="md">Both action-required changes, end to end. Worth watching once if you handle gifts.</p>
+    </div>
+    <figcaption>Video to follow.</figcaption>
+  </figure>
+</article>
+
+<article class="item" id="crediting">
+  <h3>Automated invoice crediting</h3>
+  <div class="item-meta">
+    <span class="tag act">Action required</span>
+    <span class="affects">Clinics &amp; Colleges team, and anyone entering gifts</span>
+  </div>
+
+  <h4>What changed</h4>
+  <p>Donations now apply themselves to the participant's trip invoice, capped at the outstanding balance. Any amount above that balance is recorded as surplus against the gift rather than rejected. The invoice is marked <b>Paid</b> automatically once credits equal its total.</p>
+
+  <h4>Why it changed</h4>
+  <p>A donation larger than the remaining invoice balance previously failed with a business process error and produced no credit at all. Someone had to notice, intervene manually, and the excess remained untracked.</p>
+
+  <div class="panel hi">
+    <h4>Worked example</h4>
+    <p>A <b>$3,000</b> donation against an invoice with <b>$2,300</b> outstanding now produces a <b>$2,300 credit</b> and <b>$700 of recorded surplus</b>. Nothing is lost and nothing requires rescuing.</p>
+  </div>
+
+  <h4>Late participations</h4>
+  <p>Donations that arrive before a trip participation exists in Compass now wait rather than fail. When the participation is created carrying the page ID — or when an incorrect page ID is corrected — the waiting donations link and credit themselves. There is no queue to work through and no button to press.</p>
+
+  <div class="changes">
+    <div class="disc">
+      <h4>Discontinued</h4>
+      <ul>
+        <li>Setting an invoice on a transaction in order to force an automatic credit. This mechanism has been retired.</li>
+        <li>Manually creating invoice credits for GoFundMe Pro donations.</li>
+        <li>Copying page IDs from GoFundMe Pro for pages the synchronization has already matched.</li>
+      </ul>
+    </div>
+    <div class="newp">
+      <h4>Unchanged</h4>
+      <ul>
+        <li>Manual invoice credits for participants who have no fundraising page and are paying by check.</li>
+        <li>Entering offline gifts as transactions, exactly as before.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>New: linking an offline gift</h4>
+  <p>Enter the transaction as usual, then select the participant's page in the <b>Fundraising Page</b> lookup. Compass fills the page ID, links the participation and invoice, and credits the gift exactly as it would an online donation. The page ID field beside the lookup is read-only by design: a selection cannot introduce a typo, and a typed number can.</p>
+
+  <figure>
+    <div class="media">
+      <span class="mk">Screenshot</span>
+      <div class="mt">The Fundraising Page lookup on a transaction</div>
+      <p class="md">The one new click — the lookup open, with the read-only page ID field beside it.</p>
+    </div>
+    <figcaption>Screenshot to follow.</figcaption>
+  </figure>
+
+  <h4>New: reallocating surplus to another trip</h4>
+  <p>To move a participant's unused funds to a subsequent trip, select their previous page in <b>Apply Surplus From Page</b> on the new participation record. Compass transfers the available surplus — never more than the gifts hold, never more than the new invoice requires — then clears the field for reuse. The <b>Over-fundraised Pages</b> view lists everyone with funds available.</p>
+  <p>Your selection constitutes the approval. Whether donor funds may move between trips is a judgment the system will not make on its own.</p>
+
+  <figure>
+    <div class="media">
+      <span class="mk">Video · 60–90 s each</span>
+      <div class="mt">Two task videos</div>
+      <p class="md">Linking an offline check, and applying surplus to a new trip.</p>
+    </div>
+    <figcaption>Videos to follow.</figcaption>
+  </figure>
+
+  <div class="panel">
+    <h4>How current is what I am looking at?</h4>
+    <div class="tblwrap"><table>
+      <thead><tr><th>What</th><th>How current</th></tr></thead>
+      <tbody>
+        <tr><td>A donation crediting and appearing on the participant and page</td><td>Seconds</td></tr>
+        <tr><td>A late participation reconnecting its waiting donations</td><td>Seconds after saving</td></tr>
+        <tr><td>An offline gift linked through the lookup</td><td>Seconds after saving</td></tr>
+        <tr><td>A new fundraising page appearing in Compass</td><td>Up to 1 hour</td></tr>
+        <tr><td>Page money totals and Over-raised Remaining</td><td>Up to 12 hours, or refresh one record on demand</td></tr>
+      </tbody>
+    </table></div>
+    <p>Records and lists are live; summary totals lag. Nothing the system decides depends on the slower totals.</p>
+  </div>
+</article>
+
+<div class="stage">
+  <span class="kicker">Changes for awareness</span>
+  <h2>Five items</h2>
+  <p>New capability and corrected reporting. Nothing here changes how you work.</p>
+</div>
+
+<article class="item" id="facilities">
+  <h3>Recipient Facilities</h3>
+  <div class="item-meta">
+    <span class="tag no">No action this release</span>
+    <span class="affects">Programs, assessments, logistics</span>
+  </div>
+
+  <h4>What changed</h4>
+  <p>Compass now holds a Recipient Facilities table containing more than 5,000 hospitals and clinics that Project C.U.R.E. has assessed or shipped to, loaded from the Health &amp; Compassion database. Every facility is searchable as <i>Name (Country)</i>, so entering "St. Mary" returns <i>St. Mary's Hospital (Ghana)</i> in any search or lookup.</p>
+
+  <h4>What a facility record holds</h4>
+  <p>Current facts — bed count, staffing, population served, top requested needs — each carrying a banner stating which assessment booklet they came from and when. Alongside them sits the facility's full history: the files it has been part of, the shipments it has received, and every assessment on a timeline.</p>
+
+  <div class="panel hi">
+    <h4>What you do differently: nothing, this release</h4>
+    <p>Continue working accounts and connections exactly as you do today. The facility layer is read-only for staff while the data is verified. Facility selection on requests, assessments, and shipments arrives in a later release, with training before anything changes.</p>
+    <p>You are welcome to browse it now. If you spot a duplicate or an obviously wrong record, that is useful — send it to the CRM contact below.</p>
+  </div>
+
+  <figure>
+    <div class="media">
+      <span class="mk">Screenshot · Video ~2 min</span>
+      <div class="mt">A facility record, and a short tour</div>
+      <p class="md">The Overview tab with its provenance banner, plus a walk through the tabs.</p>
+    </div>
+    <figcaption>Screenshot and video to follow.</figcaption>
+  </figure>
+</article>
+
+<article class="item" id="reporting">
+  <h3>Power BI: opportunity scoping corrected</h3>
+  <div class="item-meta">
+    <span class="tag no">No action</span>
+    <span class="affects">Leadership and fundraising</span>
+  </div>
+  <p>The executive dashboard previously scoped every measure to opportunities <i>created</i> within the current fiscal year. An opportunity opened in a prior year and still being actively worked therefore disappeared from view at the fiscal year boundary. The Opportunities list now shows every open opportunity regardless of creation date, alongside everything created in the current fiscal year, and estimated revenue reflects all open asks.</p>
+  <p>Win rate and won amounts remain scoped to the current fiscal year, so year-over-year comparisons continue to mean what they always have. Currency figures now display unit-aware — thousands as K, millions as M — rather than rendering everything in millions.</p>
+
+  <h3 style="margin-top:40px">GIK request reference numbers</h3>
+  <div class="item-meta">
+    <span class="tag no">No action</span>
+    <span class="affects">GIK and warehouse teams</span>
+  </div>
+  <p>Every GIK donation request now carries a reference number in the form <b>GDR-001008</b>, generated automatically on creation and read-only on the form. Use it in email, on receipts, and in hand-offs so there is no ambiguity about which request is meant.</p>
+  <div class="panel">
+    <p style="margin:0"><b>One caveat.</b> The approximately 3,300 requests that predated the reference number were numbered in bulk within the <kbd>GDR-100000</kbd> block. A higher number therefore does not indicate a more recent request. <b>Sort views by created date, not by reference number</b> — the number is an identifier, not a chronology.</p>
+  </div>
+
+  <h3 style="margin-top:40px">Grants Dashboard</h3>
+  <div class="item-meta">
+    <span class="tag no">No action</span>
+    <span class="affects">Grants team</span>
+  </div>
+  <p>Details to follow in an update to this page.</p>
+
+  <h3 style="margin-top:40px">SharePoint folders</h3>
+  <div class="item-meta">
+    <span class="tag no">No action</span>
+    <span class="affects">All staff</span>
+  </div>
+  <p>Details to follow in an update to this page.</p>
+</article>
+
+<div class="stage" id="reference">
+  <span class="kicker">Reference</span>
+  <h2>Training and support</h2>
+</div>
+
+<section class="item">
+  <p>The two action-required changes have a full written guide covering every screen, field, and new habit, plus a short video for each task. Start with the overview video if you handle gifts, and use the guide as a reference afterward.</p>
+
+  <div class="panel">
+    <h4>If something looks wrong</h4>
+    <ul style="margin-bottom:0">
+      <li><b>A donation has not credited</b> and does not appear in either review view — note the transaction number and the page name, then get in touch. That is enough to trace it.</li>
+      <li><b>A page's figures look wrong</b> — check Sync Variance first. A positive variance almost always means a check was keyed directly into GoFundMe Pro.</li>
+      <li><b>You applied surplus and the totals have not moved</b> — open the gift itself. Its Surplus Remaining updates immediately, while page summary totals refresh on a slower cycle.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p><b>Compass Release Notes — August 2026.</b> Questions about anything on this page: <b>Aniel Horo</b>, CRM.</p>
+  <p>Earlier releases are listed on the release notes index. This page is a record of what shipped in August and is not updated as behavior changes — for current instructions, always use the staff guide.</p>
+</footer>
+
+</div>
+</body>
+</html>
